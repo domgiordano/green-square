@@ -1,24 +1,36 @@
-steps:
-  - name: Checkout repository
-    uses: actions/checkout@v3
-    with:
-      persist-credentials: false
+name: Green Square
 
-  - name: Set up Git
-    run: |
-      git config user.name "domgiordano"
-      git config user.email "github-actions[bot]@users.noreply.github.com"
+on:
+  schedule:
+    # Runs every 3 hours
+    - cron: '0 */3 * * *'
+  workflow_dispatch: # allows manual trigger
 
-  - name: Update README
-    run: |
-      TODAY=$(date '+%Y-%m-%d %H:%M:%S UTC')
-      echo "# Green Square" > README.md
-      echo "Last updated: $TODAY" >> README.md
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
 
-  - name: Commit and push changes
-    env:
-      GH_PAT: ${{ secrets.GH_PAT }}
-    run: |
-      git add README.md
-      git commit -m "Updated: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
-      git push https://$GH_PAT@github.com/domgiordano/green-square.git HEAD:master
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - name: Set up Git
+        run: |
+          git config user.name "domgiordano"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Update README date
+        run: |
+          TODAY=$(date '+%Y-%m-%d %H:%M:%S UTC')
+          echo "# Green Square" > README.md
+          echo "Last updated: $TODAY" >> README.md
+
+      - name: Commit and push changes
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          git add README.md
+          git commit -m "Updated: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
+          git push https://$GH_PAT@github.com/domgiordano/green-square.git HEAD:master
