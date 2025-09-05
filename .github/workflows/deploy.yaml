@@ -19,7 +19,7 @@ jobs:
       - name: Set up Git
         run: |
           git config user.name "domgiordano"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.email "dominickj.giordano@gmail.com"
 
       - name: Update README date
         run: |
