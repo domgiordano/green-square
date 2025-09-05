@@ -2,8 +2,9 @@ name: Green Square
 
 on:
   schedule:
-    - cron: '0 */3 * * *' # every 3 hours
-  workflow_dispatch:
+    # Runs every 3 hours
+    - cron: '0 */3 * * *'
+  workflow_dispatch: # allows manual trigger
 
 jobs:
   update-readme:
@@ -15,7 +16,7 @@ jobs:
 
       - name: Set up Git
         run: |
-          git config user.name "github-actions[bot]"
+          git config user.name "domgiordano"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Update README date
@@ -25,10 +26,9 @@ jobs:
           echo "Last updated: $TODAY" >> README.md
 
       - name: Commit and push changes
-  env:
-    GH_PAT: ${{ secrets.GH_PAT }}
-  run: |
-    git add README.md
-    git commit -m "Updated: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
-    git push https://$GH_PAT@github.com/domgiordano/green-square.git HEAD:master
-
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          git add README.md
+          git commit -m "Updated: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
+          git push https://$GH_PAT@github.com/domgiordano/green-square.git HEAD:master
