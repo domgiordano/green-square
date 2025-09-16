@@ -3,7 +3,7 @@ name: Green Square
 on:
   schedule:
     # Runs every hour
-    - cron: '0 */1 * * *'
+    - cron: '0 * * * *'
   workflow_dispatch: # allows manual trigger
 
 jobs:
